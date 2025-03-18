@@ -1,0 +1,65 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.custom-navbar {
+    padding: 5px 0;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Lobster', sans-serif;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.navbar-brand:hover {
+    color: white;
+}
+.navbar-nav .nav-link {
+    color: white !important;  
+    font-family: 'Lobster', sans-serif !important;
+    font-size: 20px;
+}
+.navbar-toggler-icon {
+  filter: brightness(0) invert(1); 
+}
+/* .split-section {
+    display: flex;
+    height: 883px; 
+  }
+  
+  .left, .right {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .left {
+    background-image: url(../images/moonlight\ sonata.jpeg);
+  }
+  
+  .right {
+    background-image: url(../images/Soft\ Opening\ Cafe\ Template\ Video.jpeg);
+  } */
+   body{
+    background-image: url(../images/Poster\ design\ _\ Dior\ Sauvage\ _\ Graphic\ design\ _\ Photoshop.jpeg);
+   }
+  #countdown-timer {
+    font-family: 'Lobster', sans-serif !important;
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 20px;
+  }
+  
+  #timer {
+    font-weight: bold;
+    color: #ff0000;
+  }
