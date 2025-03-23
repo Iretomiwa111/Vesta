@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CheckOut page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../othercsspage/checkout.css">
+</head>
+
+<body>
+    <div class="checkout-container">
+        <div class="checkout-content">
+
+            <div class="order-summary" id="order-summary"></div>
+
+            <div class="shipping-details">
+                <h2>Shipping Details</h2>
+
+                <div class="progress-indicator">
+                    <div class="step active">1</div>
+                    <div class="step">2</div>
+                </div>
+
+                <form class="shipping-form" id="shipping-form">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+
+                    <label for="lastname">Last Name</label>
+                    <input type="text" id="lastname" placeholder="Enter your last name" required>
+
+                    <label for="street">Street</label>
+                    <input type="text" id="street" placeholder="Enter your street name" required>
+
+                    <div class="small-inputs">
+                        <div>
+                            <label for="street-no">Street No.</label>
+                            <input type="text" id="street-no" placeholder="----" required>
+                        </div>
+                        <div>
+                            <label for="apartment-no">Apartment No.</label>
+                            <input type="text" id="apartment-no" placeholder="----" required>
+                        </div>
+                    </div>
+
+                    <label for="city">City</label>
+                    <select id="city" required>
+                        <option value="" disabled selected>Select your city</option>
+                        <option value="ibadan">Ibadan</option>
+                        <option value="lagos">Lagos</option>
+                        <option value="abuja">Abuja</option>
+                        <option value="kwara">Kwara</option>
+                        <option value="others">Others</option>
+                    </select>
+
+                    <label for="zipcode">Zip Code</label>
+                    <input type="text" id="zipcode" placeholder="Enter zip code" required>
+
+                    <button type="submit" class="next-button" id="next-button">Next</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyChhtxqI0LIm4H1ITUqvSiGhNtpGRHqe-o",
+            authDomain: "signup-and-login-52098.firebaseapp.com",
+            projectId: "signup-and-login-52098",
+            storageBucket: "signup-and-login-52098.firebasestorage.app",
+            messagingSenderId: "516535424161",
+            appId: "1:516535424161:web:0e2edf04313906dc098ce0"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+
+        const orderSummaryContainer = document.getElementById("order-summary");
+
+        if (!orderSummaryContainer) {
+            console.error("Error: 'order-summary' div not found in HTML!");
+        }
+
+        async function fetchCartItems(userId) {
+            console.log("Fetching cart items for user:", userId);
+
+            const cartRef = collection(db, "cart");
+            const q = query(cartRef, where("userId", "==", userId));
+
+            try {
+                const querySnapshot = await getDocs(q);
+                orderSummaryContainer.innerHTML = ` <div class="checkout-header">
+                    <a href="./Add-to-cart.html"><button class="back-button">&#8592;</button></a>
+                    <h2>Order Summary</h2>
+                </div>`;
+                let subtotal = 0;
+                const deliveryFee = 9.90;
+                // let totalPrice = 0;
+
+                if (querySnapshot.empty) {
+                    console.warn("Cart is empty for this user.");
+                    orderSummaryContainer.innerHTML += "<p>Your cart is empty.</p>";
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const item = doc.data();
+                    console.log("Item:", item);
+
+                    subtotal += item.price * item.quantity;
+
+
+                    const cartItem = document.createElement("div");
+                    cartItem.classList.add("cart-item");
+                    cartItem.innerHTML = `
+                <div class="cart-item-content">
+                    <img src="${item.imageURL}" alt="${item.name}" class="cart-item-img">
+                    <div class="cart-item-details">
+                        <p class="cart-item-name">${item.name}</p>
+                        <p class="cart-item-price">$${(item.price * item.quantity).toFixed(2)} (${item.quantity}x)</p>
+                    </div>
+                </div>
+                 `;
+                    orderSummaryContainer.appendChild(cartItem);
+                });
+                let total = subtotal + deliveryFee;
+
+                const orderSummary = `
+            <div class="order-summary-box">
+                <h4>Order Summary</h4>
+                <p class="summary-item">Subtotal <span id="subtotal">$${subtotal.toFixed(2)}</span></p>
+                <p class="summary-item">Delivery <span id="shipping-fee">$${deliveryFee.toFixed(2)}</span></p>
+                <hr>
+                <p class="summary-total"><strong>Total <span id="total">$${total.toFixed(2)}</span></strong></p>
+            </div>
+            `;
+                orderSummaryContainer.innerHTML += orderSummary;
+
+            } catch (error) {
+                console.error(" Error fetching cart items:", error);
+                orderSummaryContainer.innerHTML = "<p>Failed to load cart items.</p>";
+            }
+        }
+
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User logged in:", user.uid);
+                fetchCartItems(user.uid);
+            } else {
+                console.log("No user logged in.");
+                orderSummaryContainer.innerHTML = "<p>Please log in to view your order summary.</p>";
+            }
+        });
+
+
+        document.getElementById("shipping-form").addEventListener("submit", function (event) {
+            event.preventDefault(); 
+
+            let subtotal = document.querySelector("#subtotal").innerText.replace("$", "");
+            let shippingFee = document.querySelector("#shipping-fee").innerText.replace("$", "");
+            let total = document.querySelector("#total").innerText.replace("$", "");
+
+            localStorage.setItem("subtotal", subtotal);
+            localStorage.setItem("shippingFee", shippingFee);
+            localStorage.setItem("total", total);
+
+            window.location.href = "payment.html";
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,298 @@
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Lobster', sans-serif;
+        background: rgb(39, 47, 77);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        color: white;
+    }
+
+    .payment-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        /* width: 420px; */
+        overflow-y: auto;
+        width: 90%;
+        max-width: 420px;
+        min-height: auto;
+        text-align: center;
+        box-shadow: 0px 0px 15px 0px rgb(120, 126, 148);
+    }
+
+    h2 {
+        color: #fff;
+    }
+    .paymentheader{
+        display: flex;
+        gap: 100px;
+    }
+    .payment-method,
+    .card-details,
+    .order-summary {
+        text-align: left;
+        margin: 15px 0;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        letter-spacing: 0.8px;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 8px;
+        outline: none;
+        background-color: rgb(39, 47, 77);
+        color: white;
+        box-shadow: 0px 0px 5px 0px rgb(120, 126, 148);
+    }
+
+    input::placeholder {
+        color: #ccc;
+    }
+
+    option {
+        background-color: rgb(18, 25, 53);
+        border: none;
+    }
+
+    .card-info {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .card-info div {
+        width: 48%;
+    }
+
+    .save-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        appearance: none;
+        background-color: #fff;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"]:checked {
+        background-color: rgb(11, 21, 58);
+    }
+
+    #save-card {
+        border: none;
+    }
+
+    .save-card label {
+        font-weight: lighter;
+    }
+
+    .order-summary p,
+    .order-summary h3 {
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+    }
+
+    .order-summary h3 {
+        font-weight: bold;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: rgb(39, 47, 77);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: rgb(11, 21, 58);
+    }
+    /* #card-details, .paypal-container {
+        display: none; 
+    } */
+    #card-details {
+        display: block;
+    }
+
+    .paypal-container {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .paypal-container h2 {
+        color: rgb(11, 21, 58);
+    }
+
+    .paypal-logo {
+        width: 100px;
+        margin-bottom: 10px;
+    }
+
+    .paypal-input {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .paypal-options {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 10px 0;
+    }
+
+    .paypal-options label {
+        color: rgb(39, 47, 77);
+    }
+
+    .paypal-login {
+        background: #0070ba;
+        color: white;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .paypal-login:hover {
+        background: #005ea6;
+    }
+
+    .paypal-help {
+        color: #0070ba;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .paypal-divider {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin: 15px 0;
+    }
+
+    .paypal-guest {
+        background: #e0e0e0;
+        color: black;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button,
+    .paypal-login,
+    .paypal-guest {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .paypal-guest:hover {
+        color: white;
+        font-weight: lighter;
+    }
+  
+    .custom-alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+        display: none;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+        font-family: 'Tangerine' sans-serif !important;
+      }
+      
+      .custom-alert p {
+        margin-bottom: 15px;
+        font-family: 'Tangerine' sans-serif !important;
+      }
+      
+      .custom-alert button {
+        padding: 5px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+    @media screen and (max-width: 350px) {
+        .payment-container {
+            max-height: 95vh;
+            overflow-y: auto;
+            padding: 15px;
+        }
+    
+        h2 {
+            font-size: 20px;
+        }
+    }
+    
+
+    @media (max-width: 320px) {
+        .payment-container {
+            padding: 10px;
+            width: 95%;
+        }
+
+        .paypal-container {
+            padding: 10px;
+        }
+
+        .card-info {
+            flex-direction: column;
+        }
+
+        .card-info div {
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+        }
+    }

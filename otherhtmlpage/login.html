@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VESTA Log In</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../othercsspage/login.css">
+</head>
+
+<body>
+    <div class="container row shadow-lg">
+
+        <div class="col-md-5 left-section">
+            <img src="../images/download (7).jpg" alt="">
+            <h3 class="walk-with-vesta">Walk with VESTA</h3>
+            <p class="tagline">To Unleash Your Inner Goddess And Walk With Elegance.</p>
+        </div>
+
+        <div class="col-md-7 right-section">
+            <h2 class="text-center mb-4">Log In</h2>
+            <form id="loginForm" class="login-form">
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="email" placeholder="example@gmail.com">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <button type="submit" id="loginBTN" class="btn btn-login">Login</button>
+                <div class="text-center mt-3">
+                    <p>Haven’t Signed Up yet ? Then do it now !</p>
+                    <a href="./Signup2.html" class="text-light signup-link">Sign Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="custom-alert" class="custom-alert">
+        <p id="alert-message"></p>
+        <button onclick="closeAlert()">OK</button>
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getFirestore, collection, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+    import { getAuth,setPersistence, browserLocalPersistence, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyChhtxqI0LIm4H1ITUqvSiGhNtpGRHqe-o",
+        authDomain: "signup-and-login-52098.firebaseapp.com",
+        projectId: "signup-and-login-52098",
+        storageBucket: "signup-and-login-52098.firebasestorage.app",
+        messagingSenderId: "516535424161",
+        appId: "1:516535424161:web:0e2edf04313906dc098ce0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const colRef = collection(db, "users");
+    const auth = getAuth(app);
+
+    setPersistence(auth, browserLocalPersistence)
+        .then(() => {
+            console.log("Auth persistence enabled (Local Storage)");
+        })
+        .catch((error) => {
+            console.error("Error setting auth persistence:", error);
+        });
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const loginForm = document.querySelector("#loginForm");
+        const loginBTN = document.querySelector("#loginBTN");
+      
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            loginBTN.disabled = true;
+
+            const email = loginForm.querySelector("input[name='email']").value.trim();
+            const password = loginForm.querySelector("input[name='password']").value.trim();
+
+            if (!email || !password) {
+                showAlert(" Fill in all fields", "darkred");
+                loginBTN.disabled = false;
+                return;
+            }
+            try {
+                const userRes = await signInWithEmailAndPassword(auth, email, password);
+                const user = userRes.user;
+                console.log("User logged in:", userRes.user);
+                // const user = userRes.user;
+
+                const userDocRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
+
+
+                if (!userDoc.exists()) {
+                    const defaultUserData = {
+                        uid: user.uid,
+                        email: user.email,
+                        firstname: "Unknown",
+                        lastname: "User",
+                        createdAt: new Date(),
+                    };
+                    await setDoc(userDocRef, defaultUserData);
+                }
+
+                showAlert(" Log-in successful!", "green");
+
+                setTimeout(() => {
+                    window.location.href = "../index.html";
+                }, 2000);
+            } catch (error) {
+                console.log('error', error);
+
+                let errorMessage = " Something went wrong. Try again.";
+
+                if (error.message == 'Firebase: Error (auth/invalid-credential).') {
+                    showAlert("Invalid email or password!", "red");
+                    return;
+                }
+                if (error.message == 'Firebase: Error (auth/network-request-failed).') {
+                    showAlert("Pls check your connection", "purple");
+                    return;
+                }
+                if (error.message == 'Firebase: Error (auth/invalid-email).') {
+                    showAlert("Fill in all fields", "darkred");
+                    return;
+                }
+                if (error.message == 'Firebase: Error (auth/missing-password).') {
+                    showAlert("Fill in all fields", "darkred")
+                }
+                showAlert(errorMessage, "red");
+            } finally {
+                loginBTN.disabled = false;
+            }
+        })
+    })
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("Auth State Changed: User is already logged in", user);
+        } else {
+            console.warn("No user detected.");
+        }
+    });
+</script>
+
+<script>
+    function showAlert(message, color = "red") {
+        const alertBox = document.getElementById("custom-alert");
+        const alertMessage = document.getElementById("alert-message");
+
+        alertMessage.innerText = message;
+        alertBox.style.background = color;
+        alertBox.style.display = "block";
+
+        setTimeout(() => {
+            alertBox.style.display = "none";
+        }, 3000);
+    }
+
+    function closeAlert() {
+        document.getElementById("custom-alert").style.display = "none";
+    }
+    // function loginBTN(){
+    //     if (email.value.trim() === '' && password.value.trim() === '') {
+    //         alert('hello')
+    //     }
+    // }
+
+</script>
+
+</html>

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../othercsspage/payment.css">
+</head>
+
+<body>
+    <div class="payment-container">
+        <div class="paymentheader"> 
+            <a href="../otherhtmlpage/checkout.html" style="text-decoration: none; color: white;">←</a>
+            <h2>Payment</h2> 
+        </div>
+
+        <div class="payment-method">
+            <label>Select Payment Method:</label>
+            <select id="payment-method">
+                <option value="card">Credit/Debit Card</option>
+                <option value="paypal">PayPal</option>
+            </select>
+        </div>
+
+        <div id="card-details" class="card-details">
+            <label>Card Name:</label>
+            <input type="text" placeholder="Cardholder Name">
+
+            <label>Card Number:</label>
+            <input type="text" placeholder="1234 5678 9012 3456">
+
+            <div class="card-info">
+                <div>
+                    <label>Expiration</label>
+                    <input type="text" placeholder="MM/YY">
+                </div>
+                <div>
+                    <label>CVV</label>
+                    <input type="text" placeholder="***">
+                </div>
+            </div>
+
+            <div class="save-card">
+                <label for="save-card">Save this card</label>
+                <input type="checkbox" id="save-card">
+            </div>
+        </div>
+
+        <div id="paypal-details" class="paypal-container" style="display: none;">
+            <img src="../images/fdb4efb9ec1f26dd2fac539282074f6f-removebg-preview.png" width="60px" alt="PayPal"
+                class="paypal-logo">
+            <h2>Log in to PayPal</h2>
+
+            <input type="email" placeholder="Email address" class="paypal-input">
+            <input type="password" placeholder="Password" class="paypal-input">
+
+            <div class="paypal-options">
+                <input type="checkbox" id="stay-logged-in">
+                <label for="stay-logged-in">Stay logged in for faster checkout</label>
+            </div>
+
+            <button class="paypal-login">Log In</button>
+
+            <p class="paypal-help">Having trouble logging in?</p>
+
+            <hr class="paypal-divider">
+
+            <button class="paypal-guest">Pay with Debit or Credit Card</button>
+        </div>
+
+
+        <div class="order-summary">
+            <p>Subtotal: <span id="payment-subtotal">$0.00</span></p>
+            <p>Shipping Fee: <span id="payment-shipping-fee">$0.00</span></p>
+            <h3>Total: <span id="payment-total">$0.00</span></h3>
+        </div>
+
+        <button id="checkout-btn">Checkout</button>
+    </div>
+
+    <div id="custom-alert" class="custom-alert">
+        <p id="alert-message"></p>
+        <button onclick="closeAlert()">OK</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, query, writeBatch, doc, deleteDoc, getDocs, where } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyChhtxqI0LIm4H1ITUqvSiGhNtpGRHqe-o",
+            authDomain: "signup-and-login-52098.firebaseapp.com",
+            projectId: "signup-and-login-52098",
+            storageBucket: "signup-and-login-52098.firebasestorage.app",
+            messagingSenderId: "516535424161",
+            appId: "1:516535424161:web:0e2edf04313906dc098ce0"
+        };
+
+        //  Initialize Firebase App
+        const app = initializeApp(firebaseConfig);
+
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User is logged in:", user.uid);
+            } else {
+                console.log("No user logged in.");
+            }
+        });
+
+        document.getElementById("checkout-btn").addEventListener("click", async function () {
+            if (!auth || !db) {
+                console.error("Firebase services not initialized properly.");
+                showAlert("An error occurred. Please refresh the page and try again.", "red");
+                return;
+            }
+
+            const user = auth.currentUser;
+
+            if (!user) {
+                showAlert("You must be logged in to checkout.", "red");
+                return;
+            }
+
+            try {
+                // Reference to the user's cart items
+                const cartRef = collection(db, "cart");
+                const q = query(cartRef, where("userId", "==", user.uid));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    showAlert("Your cart is empty.", "red");
+                    return;
+                }
+
+                const batch = writeBatch(db);
+                querySnapshot.forEach((docSnap) => {
+                    batch.delete(doc(db, "cart", docSnap.id));
+                });
+
+                await batch.commit();
+
+                showAlert("Your order has been placed successfully!", "green");
+                window.location.href = "../index.html"; // Redirect after checkout
+            } catch (error) {
+                console.error("Error during checkout:", error);
+                showAlert("There was an issue placing your order. Please try again.", "red");
+            }
+        });
+
+
+    </script>
+    <script>
+
+        function showAlert(message, color = "red") {
+            const alertBox = document.getElementById("custom-alert");
+            const alertMessage = document.getElementById("alert-message");
+
+            alertMessage.innerText = message;
+            alertBox.style.background = color;
+            alertBox.style.display = "block";
+
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+        function closeAlert() {
+            document.getElementById("custom-alert").style.display = "none";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let subtotal = localStorage.getItem("subtotal") || "0.00";
+            let shippingFee = localStorage.getItem("shippingFee") || "0.00";
+            let total = localStorage.getItem("total") || "0.00";
+
+            document.getElementById("payment-subtotal").innerText = "$" + subtotal;
+            document.getElementById("payment-shipping-fee").innerText = "$" + shippingFee;
+            document.getElementById("payment-total").innerText = "$" + total;
+        });
+
+        document.getElementById('payment-method').addEventListener('change', function () {
+            let cardDetails = document.getElementById('card-details');
+            let paypalDetails = document.getElementById('paypal-details');
+
+            if (this.value === 'card') {
+                cardDetails.style.display = 'block';
+                paypalDetails.style.display = 'none';
+            } else {
+                cardDetails.style.display = 'none';
+                paypalDetails.style.display = 'block';
+            }
+        });
+
+    </script>
+</body>
+
+</html>

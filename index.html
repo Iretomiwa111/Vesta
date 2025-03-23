@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vesta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<nav class="navbar navbar-expand-lg fixed-top custom-navbar"
+    style="background: linear-gradient(100deg, rgb(8, 2, 37), rgb(3, 26, 39), rgb(92,10,97));">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold d-flex align-items-center me-3" href="#">
+            <img src="./images/smokewhite-removebg-preview (1).png" alt="" width="40px" height="40px" class="me-2">
+            Vesta
+        </a>
+        <!-- <a href="./otherhtmlpage/Add-to-cart.html" class="nav-link me-3 position-relative cart-icon">
+            <img src="./images/shopping_cart_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Cart" width="30"
+                height="30">
+            <span id="cart-count"
+                class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+            </span>
+        </a> -->
+        <a href="./otherhtmlpage/Add-to-cart.html" class="nav-link position-relative cart-icon">
+            <img src="./images/shopping_cart_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Cart" width="30"
+                height="30">
+            <span id="cart-count"
+                class="cart-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+            aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
+                <li class="nav-item">
+                    <a class="nav-link" href="./otherhtmlpage/NewArrival.html">New Arrivals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Categories</a>
+                </li>
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        ShopbyBrands
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">ZARA</a></li>
+                        <li><a class="dropdown-item" href="#">PRADA</a></li> (shld create a section for shopbybrands)
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">CHANEL</a></li>
+                    </ul>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" href="./otherhtmlpage/ComingSoon.html">Coming Soon</a>
+                </li>
+            </ul>
+            <div class="d-flex me-3">
+                <form onsubmit="redirectToSearchPage(event)" class="d-flex" role="search">
+                    <input class="form-control me-2" id="searchInput" type="search" placeholder="Search for products..."
+                        aria-label="Search" style=" font-family: 'Lobster', sans-serif !important;">
+                    <button class="btn btn-custom" type="submit"
+                        style=" font-family: 'Lobster', sans-serif !important;">Search</button>
+                </form>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <button class="log" id="logOut">Log Out</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<body>
+    <!-- ..................................................herosection -->
+    <section>
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Slide 1: Image -->
+                <div class="carousel-item active first-slide" data-bs-interval="2000">
+                    <img src="./images/2cb95c3d57f46c78e38d653b691bdd99.jpg" class="d-block w-100" alt="Slide 1">
+                    <div class="carousel-caption">
+                        <h2>Fashion Starts Here,With Vesta</h2>
+                        <p>Discover The Latest Trends Today.</p>
+                        <!-- <a href="#" class="add-to-cart" data-id="1">Add to Cart</a> -->
+                    </div>
+                </div>
+
+                <!-- Slide 2: Image -->
+                <div class="carousel-item second-slide" data-bs-interval="2000">
+                    <img src="./images/f9233704638302f6f2ffd407e1cf4634.jpg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption">
+                        <h2>Coming Soon</h2>
+                        <p>Upgrade Your Collection With A Fragrance As Rare As You.</p>
+                        <!-- <a href="#" class="btn btn-primary">Explore Now</a> -->
+                    </div>
+                </div>
+
+
+                <div class="carousel-item third-slide" data-bs-interval="2000">
+                    <img src="./images/4b6cb68e1523cb4657fc352f2e3fff90.jpg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption">
+                        <h2>New Arrivals</h2>
+                        <p>Upgrade Your Wardrobe With Our Latest Collection.</p>
+                        <!-- <a href="#" class="add-to-cart" data-id="2">Add to Cart</a> -->
+                    </div>
+                </div>
+
+
+                <div class="carousel-item fourth-slide" data-bs-interval="2000">
+                    <img src="./images/8f1b8e5a17d5114a5665e817a1c0d4d3.jpg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption">
+                        <h2>Fresh Drops</h2>
+                        <p>Walk With Us Today, And Unleash Your Confidence</p>
+                        <!-- <a href="#" class="add-to-cart" data-id="3">Add to Cart</a> -->
+                    </div>
+                </div>
+
+
+                <div class="carousel-item fifth-slide" data-bs-interval="2000">
+                    <img src="./images/e110ef5e306ec279b007738ffae6c8d1.jpg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption">
+                        <h2>New Arrivals</h2>
+                        <p>Clothing With Attitude.</p>
+                        <!-- <a href="#" class="add-to-cart" data-id="4">Add to Cart</a> -->
+                    </div>
+                </div>
+
+
+                <div class="carousel-item sixth-slide" data-bs-interval="2000">
+                    <img src="./images/f8f1b6361c6bf00f0d3e353013d3fcd2.jpg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption">
+                        <h2>Stay Ahead, Carry A Trend</h2>
+                        <p>Add To Your Collection.</p>
+                        <!-- <a href="./otherhtmlpage/Add to cart.html" class="add-to-cart" data-id="5">Add to Cart</a> -->
+                    </div>
+                </div>
+                <div class="carousel-item seven-slide" data-bs-interval="2000">
+                    <img src="./images/s k i n c a r e - Copy.jpeg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption">
+                        <h2>Coming Soon</h2>
+                        <p>Elevate Your Skincare Game.</p>
+                        <!-- <a href="#" class="btn btn-primary">Explore Now</a> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- .............................section2............................................. -->
+
+    <section class="latest-arrivals">
+        <div class="container">
+            <h2 class="section-title">Latest Arrivals</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="./images/7f5dbed7ecf87f943ca5ccd402f93adb.jpg" alt="">
+                    <h3 class="product-name">Regal Icon Tote</h3>
+                    <p class="product-description" id="productDescription">A masterpiece of luxury and
+                        heritage,Designed
+                        with a signature
+                        monogram canvas, rich suede accents, and a bold equestrian-inspired detail, this tote is perfect
+                        for the fashion-forward individual.</p>
+                    <p class="product-price">$90.99</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="1">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/3939388c47ea3061899320670245a60b.jpg" alt="">
+                    <h3 class="product-name">Elegant Gold Sequin Mini Dress</h3>
+                    <p class="product-description" id="productDescription">Dazzle in this stunning gold sequin
+                        mini
+                        dress, designed for a
+                        glamorous and sophisticated look.This dress is perfect for cocktail parties, special events, or
+                        a night out.</p>
+                    <p class="product-price">$99.00</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="2">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/067c6c3c071edb3726ac1cf18b670293.jpg" alt="">
+                    <h3 class="product-name">Black & Gold Luxe Handbag</h3>
+                    <p class="product-description" id="productDescription">Make a bold statement with this
+                        exquisite
+                        black leather handbag,
+                        adorned with a signature gold-tone Medusa emblem.</p>
+                    <p class="product-price">$120.01</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="3">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/aef0197c6b3ee8c57224fe8b2f85a7d2.jpg" alt="">
+                    <h3 class="product-name">Luxe Crystal Heels & Bag Set</h3>
+                    <p class="product-description" id="productDescription">Step into luxury with these dazzling
+                        rhinestone-adorned heels, designed to elevate any evening look.Paired with a shimmering
+                        rhinestone-studded clutch, this set is perfect for turning heads at any upscale event.</p>
+                    <p class="product-price">$170.99</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="4">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/fa5817fddbc07101dc8d268908f5fdd8.jpg" alt="">
+                    <h3 class="product-name">Elegant Black Velvet Gown</h3>
+                    <p class="product-description" id="productDescription">Step into timeless elegance with
+                        this
+                        breathtaking black velvet gown.
+                        This dress exudes luxury and sophistication.</p>
+                    <p class="product-price">$100.00</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="5">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/136382496_NjIwLTgyOS1iZTRiZjljYWJl.webp" alt="">
+                    <h3 class="product-name">Luxury Crystal Transparent Heels</h3>
+                    <p class="product-description" id="productDescription">Step into sophistication with these
+                        stunning
+                        transparent heels,
+                        adorned with sparkling crystal embellishments.</p>
+                    <p class="product-price">$150.67</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="6">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/002bc0bc50c8f835a4943e05addc3107.jpg" alt="">
+                    <h3 class="product-name">Le Grand Chic Bag</h3>
+                    <p class="product-description" id="productDescription">Minimalist yet striking, the Le
+                        Grand Chic
+                        Bag is a true embodiment
+                        of modern elegance A timeless staple for fashion-forward individuals.</p>
+                    <p class="product-price">$70.99</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="7">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/24be29a34afe625af0fe9a4587272b82.jpg" alt="">
+                    <h3 class="product-name">Luxury Crystal Gladiator Heels</h3>
+                    <p class="product-description" id="productDescription">These stunning white and silver
+                        gladiator
+                        heels are adorned with
+                        intricate crystal-studded floral details.</p>
+                    <p class="product-price">$150.99</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="8">Add to Cart</button></a>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/89885a5228550cffdc3e100091396c30.jpg" alt="">
+                    <h3 class="product-name">Dazzling Pink Crystal Gladiator Heels </h3>
+                    <p class="product-description" id="productDescription">These stunning strappy heels are a
+                        showstopper! Featuring delicate
+                        crystal-embellished floral details, a soft pink metallic finish, and gladiator-style straps.</p>
+                    <p class="product-price">$160.00</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="9">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/0105b6eabec9bb97d05e01051afbf8e4.jpg" alt="">
+                    <h3 class="product-name">Headline Saddle Bag</h3>
+                    <p class="product-description" id="productDescription"> Featuring a newspaper-print design
+                        on
+                        luxurious leather, this iconic
+                        silhouette is elevated with striking gothic typography and an opulent gold chain strap.</p>
+                    <p class="product-price">$125.00</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="10">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/bddf5ddc30219ec7a64e5d0d7456b5bc.jpg" alt="">
+                    <h3 class="product-name">Elegant Black Gown</h3>
+                    <p class="product-description" id="productDescription">This stunning black strapless gown
+                        is the
+                        definition of luxury and
+                        sophistication. The intricate crystal beadwork adds a dazzling effect.</p>
+                    <p class="product-price">$99.99</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="11">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="./images/5aa746dac270704cdf04a0d2f448bd1d.jpg" alt="">
+                    <h3 class="product-name">White Corset Mini Dress </h3>
+                    <p class="product-description" id="productDescription">This stunning white corset mini dress exudes
+                        sophistication and charm
+                        with its structured bodice, cap sleeves, and delicate button details running down the front.</p>
+                    <p class="product-price">$200.00</p>
+                    <div class="btn-container">
+                        <button class="read-more" id="readMoreBtn">Read More</button>
+                        <button class="add-to-cart" data-id="12">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ................................FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="newsletter">
+                <h3>Stay Updated</h3>
+                <p>Get the latest fashion trends & exclusive offers!</p>
+                <div class="newsletter-box">
+                    <input type="email" placeholder="Enter your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>VESTA</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press & Media</a></li>
+                        <li><a href="#">Affiliate Program</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Track Your Order</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Shop Women</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Best Sellers</a></li>
+                    </ul>
+                </div>
+                <!-- <a href="./otherhtmlpage/Add-to-cart.html"></a> -->
+                <div class="footer-column">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="https://twitter.com/"><img width="60px"
+                                src="./images/30442a06ccf25e328e68a78c606b74f0-removebg-preview.png" alt=""></a>
+                        <a href="https://www.instagram.com/"><img width="70px"
+                                src="./images/58a2bec02ecb40d12e507e2a212c46c6-removebg-preview.png" alt=""></a>
+                        <a href="https://www.pinterest"><img width="70px"
+                                src="./images/6ead912ceb43c93b8e189d1eb802845f-removebg-preview.png" alt=""></a>
+                        <a href="https://www.facebook"><img width="60px"
+                                src="./images/facebook_logos_vector__AI__EPS__SVG__PDF__CDR__free_download-removebg-preview.png"
+                                alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-cta">
+                <h3>Shop Now and Get <span>15% Off</span> Your First Order!</h3>
+                <p>Free Shipping on Orders Over $50 | Limited Time Offer: Buy One Get One 50% Off</p>
+                <button class="cta-button">Shop Now</button>
+                <div class="countdown">Offer Ends In: <span id="timer">00:00:00</span></div>
+            </div>
+        </div>
+        <!-- <a href=""></a> -->
+        <div class="footer-bottom">
+            <p> 2025 VESTA. All Rights Reserved.</p>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Cookies Policy</a></li>
+            </ul>
+        </div>
+        <a href=""></a>
+    </footer>
+
+    <div id="custom-alert" class="custom-alert">
+        <p id="alert-message"></p>
+        <button onclick="closeAlert()">OK</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDoc, deleteDoc, doc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyChhtxqI0LIm4H1ITUqvSiGhNtpGRHqe-o",
+            authDomain: "signup-and-login-52098.firebaseapp.com",
+            projectId: "signup-and-login-52098",
+            storageBucket: "signup-and-login-52098.firebasestorage.app",
+            messagingSenderId: "516535424161",
+            appId: "1:516535424161:web:0e2edf04313906dc098ce0"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const cartCollection = collection(db, "cart");
+
+        console.log("Firebase App:", app);
+        console.log("Firestore Instance:", db);
+        console.log("Auth Instance:", auth);
+        console.log("Current Auth State:", auth.currentUser);
+
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            console.log("Auth State Changed Triggered!");
+            if (user) {
+                currentUser = user;
+                console.log("User logged in:", user.uid);
+                updateCartCount();
+            } else {
+                console.warn("No user logged in.");
+                currentUser = null;
+                updateCartCount();
+            }
+        });
+
+
+        window.products = [];
+        document.addEventListener("DOMContentLoaded", () => {
+
+            document.querySelectorAll(".product-card").forEach((card) => {
+                const button = card.querySelector(".add-to-cart");
+                const id = button ? parseInt(button.getAttribute("data-id"), 10) : null;
+                const image = card.querySelector("img")?.src || "";
+                const name = card.querySelector(".product-name")?.innerText.trim() || "";
+                const description = card.querySelector(".product-description")?.innerText.trim() || "";
+                const priceText = card.querySelector(".product-price")?.textContent.trim().replace("$", "") || "0";
+                const price = parseFloat(priceText) || 0;
+
+                if (!name || !description || isNaN(price) || isNaN(id)) {
+                    console.warn(" Missing elements in product-card:", card);
+                    return;
+                }
+
+                window.products.push({ id, name, image, description, price });
+            });
+
+            localStorage.setItem("products", JSON.stringify(window.products));
+            console.log("Products in localStorage:", JSON.parse(localStorage.getItem("products")));
+
+            console.log(" Extracted Products:", window.products);
+
+            const cartCountElement = document.getElementById("cart-count");
+
+            document.querySelectorAll(".add-to-cart").forEach((button) => {
+                button.addEventListener("click", async () => {
+                    console.log(" Add to Cart button clicked!");
+
+                    const user = auth.currentUser;
+                    if (!auth.currentUser) {
+                        showAlert("Please log in to add products to the cart.");
+                        window.location.href = "./otherhtmlpage/login.html";
+                        return;
+                    }
+
+                    const productId = button.getAttribute("data-id");
+                    if (!productId) {
+                        console.error(" Button is missing data-id:", button);
+                        return;
+                    }
+
+                    const product = window.products.find(p => p.id == productId);
+                    console.log(" Found Product:", product);
+                    if (!product) {
+                        console.error(" Product not found!");
+                        showAlert("Product not found", "blue");
+                        return;
+                    }
+
+                    console.log("Checking Current User:", auth.currentUser);
+
+                    try {
+                        const q = query(cartCollection,
+                            where("userId", "==", auth.currentUser.uid),
+                            where("productId", "==", product.id)
+                        );
+
+                        const querySnapshot = await getDocs(q);
+
+                        if (!querySnapshot.empty) {
+                            console.log("Updating existing cart item...");
+                            const cartItemRef = querySnapshot.docs[0].ref;
+                            const cartItem = querySnapshot.docs[0].data();
+                            await updateDoc(cartItemRef, { quantity: cartItem.quantity + 1 });
+                        } else {
+                            console.log("Adding new item to cart...");
+                            console.log("Image URL before adding to Firestore:", product.image);
+                            await addDoc(cartCollection, {
+                                productId: product.id,
+                                name: product.name,
+                                price: product.price,
+                                quantity: 1,
+                                userId: auth.currentUser.uid,
+                                imageURL: product.image,
+                            });
+                        }
+                        updateCartCount()
+
+                        showAlert("Product added to cart!", "green");
+                        console.log("Product added to cart! Redirecting now...");
+                        console.log("Product Image URL:", product.image);
+                        console.log("User ID:", auth.currentUser?.uid);
+                        console.log("Redirection Path:", "/otherhtmlpage/Add-to-cart.html");
+
+
+                        // setTimeout(() => {
+                        //     console.log("Redirecting to:", "/otherhtmlpage/Add-to-cart.html");
+                        //     window.location.href = "./otherhtmlpage/Add-to-cart.html";
+                        // }, 1000);
+
+                        updateCartCount();
+
+                    } catch (error) {
+                        console.error(" Error:", error.message);
+                        showAlert("Oops! Something went wrong. Please try again.", "blue");
+                    }
+                });
+            });
+            const logoutButton = document.getElementById('logOut');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', () => {
+                    signOut(auth).then(() => {
+                        console.log('User signed out');
+                        window.location.href = './otherhtmlpage/login.html';
+                    }).catch(error => {
+                        console.error('Sign-out error:', error);
+                    });
+                });
+            }
+            updateCartCount();
+        });
+
+        async function updateCartCount() {
+            const cartCountElement = document.getElementById("cart-count");
+            if (!cartCountElement) return;
+
+            if (!currentUser) {
+                cartCountElement.textContent = "0";
+                return;
+            }
+
+            const q = query(cartCollection, where("userId", "==", currentUser.uid));
+            const querySnapshot = await getDocs(q);
+
+            let totalItems = 0;
+            querySnapshot.forEach(doc => totalItems += doc.data().quantity);
+
+            cartCountElement.textContent = totalItems;
+        }
+
+    </script>
+
+    <script>
+
+        const description = document.getElementById('productDescription');
+        const readMoreButtons = document.querySelectorAll('.read-more');
+
+        readMoreButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const productDescription = button.closest('.product-card').querySelector('.product-description');
+
+                productDescription.classList.toggle('show-more');
+                button.textContent = productDescription.classList.contains('show-more') ? 'Read Less' : 'Read More';
+            });
+        });
+
+
+
+
+        // const countdown = document.getElementById("timer");
+        // let timeLeft = 3600;
+        // function updateTimer() {
+        //     let minutes = Math.floor(timeLeft / 60);
+        //     let seconds = timeLeft % 60;
+        //     countdown.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        //     if (timeLeft > 0) {
+        //         timeLeft--;
+        //         setTimeout(updateTimer, 1000);
+        //     }
+        // }
+        // updateTimer();
+
+        function showAlert(message, color = "red") {
+            const alertBox = document.getElementById("custom-alert");
+            const alertMessage = document.getElementById("alert-message");
+
+            alertMessage.innerText = message;
+            alertBox.style.background = color;
+            alertBox.style.display = "block";
+
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+        function closeAlert() {
+            document.getElementById("custom-alert").style.display = "none";
+        }
+
+
+        function redirectToSearchPage(event) {
+            event.preventDefault();
+            const searchQuery = document.getElementById("searchInput").value;
+            console.log("Search Query:", searchQuery);
+            window.location.href = `./otherhtmlpage/search.html?query=${encodeURIComponent(searchQuery)}`;
+        }
+
+
+    </script>
+
+</body>
+
+</html>

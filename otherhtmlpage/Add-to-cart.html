@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add to Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../othercsspage/Add-to-cart.css">
+</head>
+
+<body>
+    <div class="cart-container">
+        <h2 class="text-center">🛒 Your Shopping Cart </h2>
+        <div id="cart-items">
+
+        </div>
+        <p id="total-price" class="text-center mt-3"><strong>Total: $0.00</strong></p>
+
+        <div class=" button-group text-center mt-3">
+            <button class="btn btn-success" onclick="window.location.href = '../index.html' " >← Back to Home</button>
+            <button class="btn btn-success" onclick="window.location.href = './checkout.html' " >Checkout→</button>
+        </div>
+        <!-- <a href="./checkout.html"></a> -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDoc, deleteDoc, doc, updateDoc, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+        apiKey: "AIzaSyChhtxqI0LIm4H1ITUqvSiGhNtpGRHqe-o",
+        authDomain: "signup-and-login-52098.firebaseapp.com",
+        projectId: "signup-and-login-52098",
+        storageBucket: "signup-and-login-52098.firebasestorage.app",
+        messagingSenderId: "516535424161",
+        appId: "1:516535424161:web:0e2edf04313906dc098ce0"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const cartCollection = collection(db, "cart");
+
+        function loadUserCart(user) {
+            if (!user) return;
+
+            const q = query(collection(db, "cart"), where("userId", "==", user.uid));
+
+            onSnapshot(q, (querySnapshot) => {
+                const cartContainer = document.getElementById("cart-items");
+                cartContainer.innerHTML = "";
+                let totalPrice = 0;
+                let totalItems = 0;
+
+                querySnapshot.forEach((docSnap) => {
+                    const item = docSnap.data();
+                    console.log("Firestore Data:", item);
+                    const cartItemId = docSnap.id;
+
+                    const imageURL = item.imageURL;
+
+                    totalPrice += item.price * item.quantity;
+                    totalItems += item.quantity;
+
+                    const cartItem = document.createElement("div");
+                    cartItem.classList.add("cart-item");
+                    console.log(item);
+                    cartItem.innerHTML = `
+                   <img src="${imageURL}" alt="${item.name}" class="cart-item-img"/>
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-name">${item.name}</h3>
+                        <p class="cart-item-price">$${item.price}</p>
+                        <div class="cart-item-quantity">
+                            <button class="btn-decrement" data-id="${cartItemId}">−</button>
+                            <span id="qty-${cartItemId}">${item.quantity}</span>
+                            <button class="btn-increment" data-id="${cartItemId}">+</button>
+                        </div>
+                        <button class="btn btn-danger remove-btn" data-id="${cartItemId}">Remove</button>
+                    </div>
+                `;
+                    cartContainer.appendChild(cartItem);
+                });
+
+                 const cartCountElement = document.getElementById("cart-count");
+                if (cartCountElement) {
+                    cartCountElement.innerText = totalItems;
+                }
+
+                // document.getElementById("cart-count").innerText = totalItems;
+                document.getElementById("total-price").innerHTML = `Total: <strong>$${totalPrice.toFixed(2)}</strong>`;
+                // document.getElementById("cart-count").innerText = totalItems;
+
+                document.querySelectorAll(".btn-increment").forEach(button => {
+                    button.addEventListener("click", () => updateCartQuantity(button.dataset.id, 1));
+                });
+
+                document.querySelectorAll(".btn-decrement").forEach(button => {
+                    button.addEventListener("click", () => updateCartQuantity(button.dataset.id, -1));
+                });
+
+                document.querySelectorAll(".remove-btn").forEach(button => {
+                    button.addEventListener("click", () => removeFromCart(button.dataset.id));
+                });
+
+            });
+        }
+
+        async function updateCartQuantity(cartItemId, change) {
+            const cartItemRef = doc(db, "cart", cartItemId);
+            const cartItemSnap = await getDoc(cartItemRef);
+
+            if (cartItemSnap.exists()) {
+                let newQuantity = cartItemSnap.data().quantity + change;
+                if (newQuantity < 1) {
+                    await removeFromCart(cartItemId);
+                } else {
+                    await updateDoc(cartItemRef, { quantity: newQuantity });
+                }
+            }
+        }
+
+        // async function removeFromCart(cartItemId) {
+        //     await deleteDoc(doc(db, "cart", cartItemId));
+        // }
+        function removeFromCart(cartItemId) {
+        const cartItemRef = doc(db, "cart", cartItemId);
+        deleteDoc(cartItemRef);
+    }
+
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loadUserCart(user);
+            } else {
+                document.getElementById("cart-items").innerHTML = "<p>Please log in to view your cart.</p>";
+            }
+        });
+
+    </script>
+
+    <script>
+        function showAlert(message, color = "red") {
+            const alertBox = document.getElementById("custom-alert");
+            const alertMessage = document.getElementById("alert-message");
+
+            alertMessage.innerText = message;
+            alertBox.style.background = color;
+            alertBox.style.display = "block";
+
+            setTimeout(() => {
+                alertBox.style.display = "none";
+            }, 3000);
+        }
+
+        function closeAlert() {
+            document.getElementById("custom-alert").style.display = "none";
+        }
+    </script>
+
+
+</body>
+
+</html>
